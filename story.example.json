@@ -1,0 +1,35 @@
+{
+  "brand": "Ancient Anatomy",
+  "voice": "hi-IN-MadhurNeural",
+  "rate": "+0%",
+  "hook_rate": "+18%",
+  "scenes": [
+    {
+      "id": "hook",
+      "layout": "hook",
+      "title": "रुको!",
+      "theme": "ember",
+      "lines": ["रुको!", "आज कहानी कहाँ से शुरू होगी?"]
+    },
+    {
+      "id": "setup",
+      "layout": "speaker",
+      "theme": "teal",
+      "lines": ["हर कहानी में एक सवाल होता है।", "जिसका जवाब हमें आगे सुनने पर मिलता है।"]
+    },
+    {
+      "id": "reveal",
+      "layout": "story",
+      "theme": "indigo",
+      "title": "कहानी की शुरुआत",
+      "lines": ["आज की कहानी उसी सवाल से शुरू होती है।"]
+    },
+    {
+      "id": "close",
+      "layout": "close",
+      "theme": "ember",
+      "title": "Ancient Anatomy",
+      "lines": ["ऐसी और कहानियों के लिए फ़ॉलो करो।"]
+    }
+  ]
+}
