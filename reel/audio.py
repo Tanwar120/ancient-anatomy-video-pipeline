@@ -9,7 +9,7 @@ from scipy.io import wavfile
 from scipy.ndimage import uniform_filter1d
 from scipy.signal import resample_poly
 
-from .project import scene_takes
+from .project import recorded_take, scene_takes
 
 SAMPLE_RATE = 48_000
 FPS = 30
@@ -100,7 +100,15 @@ def build_audio(story, build, music=None):
     cursor = round(0.012 * SAMPLE_RATE)
     for scene in story["scenes"]:
         shots.append({**scene, "start": max(0, (cursor / SAMPLE_RATE) - 0.035)})
-        for index, (line, _, path) in enumerate(scene_takes(story, scene, build)):
+        for index, (line, _, destination) in enumerate(
+            scene_takes(story, scene, build)
+        ):
+            path = recorded_take(destination)
+            if path is None:
+                raise ValueError(
+                    f"Missing audio or word timings for {line!r}. Run "
+                    "`python -m reel record` with the same story and build directory first."
+                )
             take, map_time = trim_take(path.with_suffix(".wav"))
             words = [
                 json.loads(row)

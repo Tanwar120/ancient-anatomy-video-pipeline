@@ -2,8 +2,10 @@
 
 import hashlib
 import json
+from pathlib import Path
 import re
 
+BUNDLED_VOICE = Path(__file__).resolve().parents[1] / "audio" / "voice"
 LAYOUTS = {"hook", "speaker", "story", "close"}
 THEMES = {"ember", "teal", "indigo", "gold"}
 RATE = re.compile(r"[+-]\d+%")
@@ -69,3 +71,14 @@ def scene_takes(story, scene, build):
         identity = json.dumps([line, story["voice"], rate], ensure_ascii=False)
         key = hashlib.sha256(identity.encode("utf-8")).hexdigest()
         yield line, rate, build / "voice" / key
+
+
+def recorded_take(path):
+    """Find the complete audio/timing pair for this text, voice and rate."""
+    for candidate in (path, BUNDLED_VOICE / path.name):
+        if (
+            candidate.with_suffix(".wav").is_file()
+            and candidate.with_suffix(".jsonl").is_file()
+        ):
+            return candidate
+    return None
